@@ -1,0 +1,14 @@
+@import './reset';
+@import './variables';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font: 400 normal 1rem/1.2 $default-font;
+
+  color: $black;
+}
