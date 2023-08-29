@@ -1,0 +1,21 @@
+@mixin animation-opacity {
+	animation: opacity 3s ease-in-out;
+
+	@keyframes opacity {
+		from {
+			transform: translateX(300px);
+		}
+
+		40% {
+			transform: translateX(0);
+		}
+
+		50% {
+			opacity: 1;
+		}
+
+		to {
+			opacity: 0;
+		}
+	}
+}

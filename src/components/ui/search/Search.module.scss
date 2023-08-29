@@ -1,0 +1,21 @@
+@import '@/assets/styles/variables';
+
+.search {
+	display: flex;
+	align-items: center;
+	width: min-content;
+	cursor: pointer;
+
+	> svg {
+		margin-right: 10px;
+		font-size: 1.4rem;
+	}
+
+	> input {
+		background-color: transparent;
+
+		&::placeholder {
+			color: $gray;
+		}
+	}
+}

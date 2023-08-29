@@ -1,0 +1,98 @@
+@import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
+
+.weather__info {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		display: flex;
+		align-items: center;
+	}
+
+	> .icon {
+		> img {
+			max-width: 150px;
+		}
+	}
+
+	> .temp {
+		margin-bottom: 30px;
+		font-size: 3rem;
+
+		> sup {
+			font-size: 2rem;
+		}
+	}
+
+	> .date {
+		margin-bottom: 30px;
+		padding-bottom: 30px;
+		border-bottom: 1px solid rgba($gray, 0.3);
+
+		> span {
+			margin-left: 10px;
+			color: $gray;
+		}
+	}
+
+	> .description {
+		margin-bottom: 20px;
+		text-transform: capitalize;
+	}
+
+	> .clouds {
+		margin-bottom: 50px;
+		> p {
+			> span {
+				font-size: 1.2rem;
+			}
+		}
+	}
+
+	> .country {
+		display: flex;
+		justify-content: center;
+		padding: 60px 40px;
+		border-radius: 30px;
+		position: relative;
+
+		> div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+			border-radius: 30px;
+			filter: blur(1px);
+			background: url('public/city.png') center / cover no-repeat;
+		}
+
+		> p {
+			z-index: 1;
+			letter-spacing: 1px;
+		}
+	}
+
+	svg {
+		margin-right: 10px;
+		fill-opacity: 0.3;
+	}
+}
+
+.notification {
+	@include animation-opacity;
+
+	width: 250px;
+	padding: 20px 0px;
+	text-align: center;
+	background-color: $white;
+	border-radius: 20px;
+	color: red;
+
+	position: absolute;
+	top: 3%;
+	right: 1%;
+}
