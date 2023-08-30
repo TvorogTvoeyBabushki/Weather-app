@@ -1,5 +1,6 @@
 @import './reset';
 @import './variables';
+@import './mixins';
 
 *,
 *::before,
@@ -19,4 +20,19 @@ body {
 	max-width: 1280px;
 	padding: 0 40px;
 	margin: 0 auto;
+}
+
+.notification {
+	@include animation-opacity;
+
+	width: 250px;
+	padding: 20px 0px;
+	text-align: center;
+	background-color: $white;
+	border-radius: 20px;
+	color: red;
+
+	position: absolute;
+	top: 3%;
+	right: 1%;
 }

@@ -1,44 +1,21 @@
-import axios from 'axios'
-import {
-	FunctionComponent,
-	InputHTMLAttributes,
-	useEffect,
-	useState
-} from 'react'
+import { FunctionComponent } from 'react'
 import { CiSearch } from 'react-icons/ci'
 
 import styles from './Search.module.scss'
 
-const Search: FunctionComponent<InputHTMLAttributes<HTMLInputElement>> = ({
+import { ISearchProps } from './Search.interface'
+
+const Search: FunctionComponent<ISearchProps> = ({
 	type,
 	name,
-	placeholder
+	placeholder,
+	onInput
 }) => {
-	const [cities, setCities] = useState([])
-	const fetchGetCities = async () => {
-		const { data } = await axios.get(
-			'https://countriesnow.space/api/v0.1/countries',
-			{
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			}
-		)
-		setCities(data)
-	}
-	useEffect(() => {
-		fetchGetCities()
-	}, [])
-
-	console.log(cities)
-
 	return (
 		<label className={styles.search}>
 			<CiSearch />
 			<input
-				onInput={e => {
-					const targetEl = e.target as HTMLInputElement
-				}}
+				onInput={onInput}
 				type={type}
 				name={name}
 				placeholder={placeholder}

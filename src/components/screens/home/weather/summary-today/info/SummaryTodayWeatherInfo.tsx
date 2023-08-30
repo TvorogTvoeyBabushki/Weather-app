@@ -1,81 +1,26 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 import { BsCloudRainFill, BsFillCloudFill } from 'react-icons/bs'
 
 import { covertDegrees } from '@/utils/convertDegrees'
 import { formatDateDay, formatDateTime } from '@/utils/formatDate'
 
-import WeatherService from '@/services/weather/weather.service'
-
 import styles from './SummaryTodayWeatherInfo.module.scss'
 
 import { IWeatherData } from '@/shared/types/weatherData.types'
 
-const SummaryTodayWeatherInfo: FunctionComponent = () => {
-	const [latitude, setLatitude] = useState(0)
-	const [longitude, setLongitude] = useState(0)
-	const [weatherData, setWeatherData] = useState<IWeatherData | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
-	const [isDisabledGeo, setIsDisabledGeo] = useState(false)
+interface ISummaryTodayWeatherInfoProps {
+	isDisabledGeo: boolean
+	isLoading: boolean
+	urlIcon: string
+	weatherData: IWeatherData | null
+}
 
-	const urlIcon = 'https://openweathermap.org/img/wn/'
-
-	const fetchWeatherInfo = async () => {
-		try {
-			setIsLoading(true)
-			const { data: weather } = await WeatherService.getWeatherInfo(
-				latitude,
-				longitude
-			)
-
-			setWeatherData(weather)
-		} catch (error) {
-			console.log(error)
-		} finally {
-			setIsLoading(false)
-		}
-	}
-
-	useEffect(() => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				position => {
-					const { latitude, longitude } = position.coords
-
-					setLatitude(latitude)
-					setLongitude(longitude)
-				},
-				() => {
-					setIsDisabledGeo(true)
-
-					const timerId = setTimeout(() => {
-						setIsDisabledGeo(false)
-						clearTimeout(timerId)
-					}, 3000)
-				}
-			)
-
-			if (latitude && longitude) {
-				fetchWeatherInfo()
-			}
-		} else {
-			alert('Geolocation не поддерживается вашим браузером')
-		}
-	}, [latitude, longitude])
-
-	useEffect(() => {
-		console.log(weatherData)
-	}, [weatherData])
-
+const SummaryTodayWeatherInfo: FunctionComponent<
+	ISummaryTodayWeatherInfoProps
+> = ({ urlIcon, weatherData }) => {
 	return (
 		<div className={styles.weather__info}>
-			{isDisabledGeo && (
-				<div className={styles.notification}>
-					Geolocation отключена пользователем
-				</div>
-			)}
-			{isLoading || !weatherData ? (
-				<div>Loading...</div>
-			) : (
+			{weatherData && (
 				<>
 					<div className={styles.icon}>
 						<img

@@ -1,0 +1,28 @@
+@import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
+
+.weather__search {
+	position: relative;
+
+	> ul {
+		width: 100%;
+		overflow: hidden;
+		background-color: $white;
+		position: absolute;
+		top: calc(100% + 20px);
+
+		> li {
+			&:not(:last-child) {
+				margin-bottom: 20px;
+			}
+
+			> a {
+				@include transition(color);
+
+				&:hover {
+					color: $gray;
+				}
+			}
+		}
+	}
+}

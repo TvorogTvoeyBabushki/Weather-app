@@ -81,18 +81,3 @@
 		fill-opacity: 0.3;
 	}
 }
-
-.notification {
-	@include animation-opacity;
-
-	width: 250px;
-	padding: 20px 0px;
-	text-align: center;
-	background-color: $white;
-	border-radius: 20px;
-	color: red;
-
-	position: absolute;
-	top: 3%;
-	right: 1%;
-}

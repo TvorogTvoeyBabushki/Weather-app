@@ -1,11 +1,27 @@
-import { $axios } from '../api'
+import axios from 'axios'
 
 const API_KEY = import.meta.env.VITE_API_KEY
 
 class WeatherService {
-	async getWeatherInfo(lat: number, lon: number) {
-		return $axios.get(
-			`/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+	async getWeatherToday(lat: number, lon: number) {
+		return axios.get(
+			`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		)
+	}
+
+	async getCityWeather(city: string, country: string) {
+		return axios.get(
+			`https://api.openweathermap.org/data/2.5/weather?q=${city},${country.toLowerCase()}&appid=${API_KEY}`,
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
 		)
 	}
 }
