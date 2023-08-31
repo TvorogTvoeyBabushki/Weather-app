@@ -13,10 +13,10 @@ export const useSummaryTodayWeatherSearch = () => {
 		{ city: string; iso2: string; country: string }[]
 	>([])
 	const [searchTerm, setSearchTerm] = useState('')
-	const [isShowListCities, setIsShowListCities] = useState(true)
+	const [isShowListCities, setIsShowListCities] = useState(false)
 
 	const debouncedSearch = useDebounce(searchTerm, 500)
-	const { setCityWeatherData } = useWeather()
+	const { setCityWeatherData, setIsLocalGeo } = useWeather()
 
 	const fetchCityWeather = async (city: string, country: string) => {
 		const { data } = await WeatherService.getCityWeather(city, country)
@@ -33,21 +33,15 @@ export const useSummaryTodayWeatherSearch = () => {
 
 		fetchCityWeather(city, country)
 		setIsShowListCities(false)
+		setSearchTerm('')
+		setIsLocalGeo(false)
 	}
 
 	const fetchGetCities = async () => {
 		const { data } = await CitiesService.getAllCities()
 		setCitiesData(data)
 	}
-	//--------------------- решить проблему с закрытием списка
-	useEffect(() => {
-		document.addEventListener('click', () => setIsShowListCities(false))
 
-		return () => {
-			document.removeEventListener('click', () => setIsShowListCities(false))
-		}
-	}, [])
-	//-------------------
 	useEffect(() => {
 		fetchGetCities()
 	}, [])
@@ -78,13 +72,17 @@ export const useSummaryTodayWeatherSearch = () => {
 		!targetEl.value.trim().length && setIsShowListCities(false)
 	}
 
+	const handleCloseClick = () => setIsShowListCities(false)
+	const handleSearchFocus = () => debouncedSearch && setIsShowListCities(true)
+	const handleLocalGeo = () => setIsLocalGeo(true)
+
 	return useMemo(
 		() => ({
 			cities,
 			isShowListCities,
-			handleLinkClick,
-			handleSearch
+			searchTerm,
+			handle: {handleLinkClick, handleSearch, handleCloseClick, handleSearchFocus, handleLocalGeo}
 		}),
-		[cities, isShowListCities]
+		[cities, isShowListCities,searchTerm]
 	)
 }

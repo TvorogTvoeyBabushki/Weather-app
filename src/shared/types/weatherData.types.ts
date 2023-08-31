@@ -17,4 +17,5 @@ export interface IWeatherData {
 	sys: {
 		country: string
 	}
+	timezone: number
 }

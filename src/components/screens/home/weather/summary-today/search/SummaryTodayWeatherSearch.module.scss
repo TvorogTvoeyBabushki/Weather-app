@@ -4,10 +4,43 @@
 .weather__search {
 	position: relative;
 
+	> div {
+		display: flex;
+		align-items: center;
+
+		> button {
+			@include transition(opacity);
+			
+			padding: 10px 10px 5px;
+			border-radius: 50%;
+
+			&:hover {
+				opacity: .7;
+			}
+
+			&:disabled {
+				opacity: 1;
+			}
+		}
+	}
+
+	> button {
+		background-color: transparent;
+		padding: 5px 5px 0;
+
+		position: absolute;
+		top: calc(100% + 20px);
+		right:  0;
+		z-index: 1;
+	}
+
 	> ul {
 		width: 100%;
 		overflow: hidden;
 		background-color: $white;
+		padding:  20px 20px 20px 30px;
+		box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+		border-radius: 10px;
 		position: absolute;
 		top: calc(100% + 20px);
 

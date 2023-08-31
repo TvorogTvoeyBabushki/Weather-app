@@ -13,22 +13,21 @@ export const useSummaryTodayWeatherInfo = () => {
 	const [isDisabledGeo, setIsDisabledGeo] = useState(false)
 	const [isBrowserSupport, setIsBrowserSupport] = useState(true)
 
-	const { cityWeatherData } = useWeather()
-	const urlIcon = 'https://openweathermap.org/img/wn/'
+	const { cityWeatherData, isLocalGeo, setLocalCoords } = useWeather()
 
 	useEffect(() => {
-		setWeatherData(cityWeatherData)
+		cityWeatherData && setWeatherData(cityWeatherData)
 	}, [cityWeatherData])
 
 	const fetchWeatherInfo = async () => {
 		try {
 			setIsLoading(true)
-			const { data: weather } = await WeatherService.getWeatherToday(
+			const { data: weatherToday } = await WeatherService.getWeatherToday(
 				latitude,
 				longitude
 			)
 
-			setWeatherData(weather)
+			setWeatherData(weatherToday)
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -44,6 +43,10 @@ export const useSummaryTodayWeatherInfo = () => {
 
 					setLatitude(latitude)
 					setLongitude(longitude)
+					setLocalCoords({
+						latitude,
+						longitude
+					})
 				},
 				() => {
 					setIsDisabledGeo(true)
@@ -55,7 +58,7 @@ export const useSummaryTodayWeatherInfo = () => {
 				}
 			)
 
-			if (latitude && longitude) {
+			if (latitude && longitude && isLocalGeo) {
 				fetchWeatherInfo()
 			}
 		} else {
@@ -63,16 +66,19 @@ export const useSummaryTodayWeatherInfo = () => {
 		}
 
 		return () => setIsBrowserSupport(true)
-	}, [latitude, longitude])
+	}, [latitude, longitude, isLocalGeo])
+
+	// useEffect(() => {
+	// 	console.log(weatherData)
+	// }, [weatherData])
 
 	return useMemo(
 		() => ({
 			weatherData,
 			isLoading,
 			isDisabledGeo,
-			urlIcon,
 			isBrowserSupport
 		}),
-		[weatherData, isLoading, isDisabledGeo, urlIcon, isBrowserSupport]
+		[weatherData, isLoading, isDisabledGeo, isBrowserSupport]
 	)
 }

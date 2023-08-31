@@ -9,13 +9,16 @@ const Search: FunctionComponent<ISearchProps> = ({
 	type,
 	name,
 	placeholder,
-	onInput
+	onInput,
+	value, onFocus
 }) => {
 	return (
 		<label className={styles.search}>
 			<CiSearch />
 			<input
 				onInput={onInput}
+				value={value}
+				onFocus={onFocus}
 				type={type}
 				name={name}
 				placeholder={placeholder}

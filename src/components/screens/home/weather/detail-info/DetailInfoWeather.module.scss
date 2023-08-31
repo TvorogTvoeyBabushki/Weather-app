@@ -1,0 +1,37 @@
+@import '@/assets/styles/mixins';
+@import '@/assets/styles/variables';
+
+.weather__detail_info {
+  > nav {
+    > ul {
+      display: flex;
+      align-items: center;
+
+      > li {
+        &:not(:last-child) {
+          margin-right: 15px;
+        }
+
+        > button {
+          @include transition(color);
+          background-color: transparent;
+          text-transform: capitalize;
+
+          &.active {
+            border-bottom: 1px solid $black;
+            padding-bottom: 5px;
+            color: $black;
+            font-weight: 700;
+          }
+
+          &:hover:not(.active) {
+            color: $gray;
+          }
+        }
+      }
+    }
+  }
+  > div {
+    display: flex;
+  }
+}

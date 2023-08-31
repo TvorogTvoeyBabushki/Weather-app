@@ -3,4 +3,6 @@ export interface ISearchProps {
 	name: string
 	placeholder: string
 	onInput: (e: React.FormEvent<HTMLInputElement>) => void
+	value: string
+	onFocus: () => void
 }

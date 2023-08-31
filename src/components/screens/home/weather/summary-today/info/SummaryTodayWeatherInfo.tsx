@@ -7,17 +7,9 @@ import { formatDateDay, formatDateTime } from '@/utils/formatDate'
 import styles from './SummaryTodayWeatherInfo.module.scss'
 
 import { IWeatherData } from '@/shared/types/weatherData.types'
+import { urlIcon } from '@/constants/urlIcon'
 
-interface ISummaryTodayWeatherInfoProps {
-	isDisabledGeo: boolean
-	isLoading: boolean
-	urlIcon: string
-	weatherData: IWeatherData | null
-}
-
-const SummaryTodayWeatherInfo: FunctionComponent<
-	ISummaryTodayWeatherInfoProps
-> = ({ urlIcon, weatherData }) => {
+const SummaryTodayWeatherInfo: FunctionComponent<{weatherData: IWeatherData | null}> = ({ weatherData }) => {
 	return (
 		<div className={styles.weather__info}>
 			{weatherData && (
