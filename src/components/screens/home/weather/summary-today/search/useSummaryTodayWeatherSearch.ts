@@ -16,7 +16,7 @@ export const useSummaryTodayWeatherSearch = () => {
 	const [isShowListCities, setIsShowListCities] = useState(false)
 
 	const debouncedSearch = useDebounce(searchTerm, 500)
-	const { setCityWeatherData, setIsLocalGeo } = useWeather()
+	const { setCityWeatherData, setIsLocalGeo, setSelectCity } = useWeather()
 
 	const fetchCityWeather = async (city: string, country: string) => {
 		const { data } = await WeatherService.getCityWeather(city, country)
@@ -32,6 +32,7 @@ export const useSummaryTodayWeatherSearch = () => {
 		e.preventDefault()
 
 		fetchCityWeather(city, country)
+		setSelectCity({ country, city })
 		setIsShowListCities(false)
 		setSearchTerm('')
 		setIsLocalGeo(false)
@@ -74,7 +75,10 @@ export const useSummaryTodayWeatherSearch = () => {
 
 	const handleCloseClick = () => setIsShowListCities(false)
 	const handleSearchFocus = () => debouncedSearch && setIsShowListCities(true)
-	const handleLocalGeo = () => setIsLocalGeo(true)
+	const handleLocalGeo = () => {
+		setIsLocalGeo(true)
+		setSelectCity(null)
+	}
 
 	return useMemo(
 		() => ({

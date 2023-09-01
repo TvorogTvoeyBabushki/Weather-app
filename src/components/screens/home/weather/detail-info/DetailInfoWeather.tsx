@@ -22,17 +22,22 @@ const DetailInfoWeather: FunctionComponent = () => {
 	const [isWeatherFiveDay, setIsWeatherFiveDay] = useState(false)
 	const [activeElList, setActiveElList] = useState('')
 
-	const { localCoords } = useWeather()
+	const { localCoords, selectCity, isLocalGeo } = useWeather()
 	const ulData = ['today', 'five day']
+
+	const fetchCityWeatherFiveDay = async () => {
+		const { data }: AxiosResponse<{list: IWeatherFiveDayProps[]}> = 
+			await WeatherService.getCityWeatherFiveDay(selectCity!.city, selectCity!.country)
+		convertData(data)
+	}
 
 	const handleWeatherFiveDayClick = (element: string) => {
 		setActiveElList(element)
-		element === 'five day' ? setIsWeatherFiveDay(true) : setIsWeatherFiveDay(false)
+
+		element === 'five day' ? setIsWeatherFiveDay(true): setIsWeatherFiveDay(false)
 	}
 
-	const fetchWeatherFiveDay = async () => {
-		const { data }: AxiosResponse<{list: IWeatherFiveDayProps[]}> = 
-			await WeatherService.getWeatherFiveDay(localCoords.latitude, localCoords.longitude)
+	const convertData = (data: { list: IWeatherFiveDayProps[] }) => {
 		const weatherFiveDayData: {day: string; temp: number; icon: string}[] = []
 
 		data.list.forEach(item => {
@@ -49,43 +54,50 @@ const DetailInfoWeather: FunctionComponent = () => {
 		setWeatherFiveDay(weatherFiveDayData)
 	}
 
-	useEffect(() => {
-		isWeatherFiveDay && fetchWeatherFiveDay()
-	},[isWeatherFiveDay])
+	const fetchWeatherFiveDay = async () => {
+		const { data }: AxiosResponse<{list: IWeatherFiveDayProps[]}> = 
+			await WeatherService.getWeatherFiveDay(localCoords.latitude, localCoords.longitude)
+		convertData(data)
+	}
 
-	useEffect(() => console.log(weatherFiveDay),[weatherFiveDay])
+	useEffect(() => {
+		isWeatherFiveDay && selectCity && fetchCityWeatherFiveDay() 
+		isWeatherFiveDay && !selectCity && fetchWeatherFiveDay()
+	}, [selectCity, isWeatherFiveDay])
 
 	return (
-	<div>
-		<div className={styles.weather__detail_info}>
-			<nav>
-				<ul>
-					{ulData.map((element, index) => (
-						<li key={index}>
-							<button
-								className={clsx('', {
-									[styles.active]: activeElList === element || (!isWeatherFiveDay && element === 'today')
-								})}
-								disabled={activeElList === element ? true : false}
-							  onClick={() => handleWeatherFiveDayClick(element)}>
-									{element}
-							</button>
-						</li>
-					))}
-				</ul>
-			</nav>
 
-			{isWeatherFiveDay && <div>
-				{weatherFiveDay?.map((item, index) => (
-					<div key={index}>
-						<p>{item.day}</p>
-						<img src={`${urlIcon}${item.icon}@2x.png`} alt="" />
-						<p>{item.temp}°C</p>
-					</div>
-				))}
-			</div>}
+		<div className={styles.weather__detail_info}>
+			<div>
+				<nav>
+					<ul>
+						{ulData.map((element, index) => (
+							<li key={index}>
+								<button
+									className={clsx('', {
+										[styles.active]: activeElList === element || (!isWeatherFiveDay && element === 'today')
+									})}
+									disabled={activeElList === element ? true : false}
+									onClick={() => handleWeatherFiveDayClick(element)}>
+										{element}
+								</button>
+							</li>
+						))}
+					</ul>
+				</nav>
+
+				{isWeatherFiveDay && <div>
+					{weatherFiveDay?.map((item, index) => (
+						<div key={index}>
+							<p>{item.day}</p>
+							<img src={`${urlIcon}${item.icon}@2x.png`} alt="" />
+							<p>{item.temp}°C</p>
+						</div>
+					))}
+				</div>}
+			</div>
 		</div>
-	</div>
+
 )}
 
 export default DetailInfoWeather

@@ -39,7 +39,7 @@
 		overflow: hidden;
 		background-color: $white;
 		padding:  20px 20px 20px 30px;
-		box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+		box-shadow: $box-shadow;
 		border-radius: 10px;
 		position: absolute;
 		top: calc(100% + 20px);

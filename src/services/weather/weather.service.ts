@@ -35,6 +35,17 @@ class WeatherService {
 			}
 		)
 	}
+
+	async getCityWeatherFiveDay(city: string, country: string) {
+		return axios.get(
+			`https://api.openweathermap.org/data/2.5/forecast?q=${city},${country.toLowerCase()}&appid=${API_KEY}&units=metric`,
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		)
+	}
 }
 
 export default new WeatherService()
