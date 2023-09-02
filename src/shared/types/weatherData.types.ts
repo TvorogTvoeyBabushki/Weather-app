@@ -11,11 +11,19 @@ export interface IWeatherData {
 	}
 	main: {
 		temp: number
+		pressure: number
+		humidity: number
 	}
 	weather: IWeather[]
 	name: string
 	sys: {
 		country: string
+		sunrise: number
+		sunset: number
 	}
 	timezone: number
+	visibility: number
+	wind: {
+		speed: number
+	}
 }

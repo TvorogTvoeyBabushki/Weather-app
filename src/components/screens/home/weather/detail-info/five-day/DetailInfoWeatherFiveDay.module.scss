@@ -1,0 +1,58 @@
+@import '@/assets/styles/mixins';
+@import '@/assets/styles/variables';
+
+.weather__five_day {
+	> nav {
+		> ul {
+			display: flex;
+			align-items: center;
+
+			> li {
+				&:not(:last-child) {
+					margin-right: 15px;
+				}
+
+				> button {
+					@include transition(color);
+					background-color: transparent;
+					text-transform: capitalize;
+
+					&.active {
+						border-bottom: 1px solid $black;
+						padding-bottom: 5px;
+						color: $black;
+						font-weight: 700;
+					}
+
+					&:hover:not(.active) {
+						color: $gray;
+					}
+				}
+			}
+		}
+	}
+	> div {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 50px;
+		animation: opacity 1s ease-in-out;
+
+		> div {
+			padding: 10px 20px;
+			background-color: $white;
+			border-radius: 15px;
+			box-shadow: $box-shadow;
+			text-align: center;
+		}
+	}
+}
+
+@keyframes opacity {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

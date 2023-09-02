@@ -10,30 +10,33 @@ import { useSummaryTodayWeatherSearch } from './useSummaryTodayWeatherSearch'
 import { useWeather } from '@/hooks/useWeather'
 
 const SummaryTodayWeatherSearch: FunctionComponent = () => {
-	const { cities, handle, isShowListCities,searchTerm } =
+	const { cities, handle, isShowListCities, searchTerm } =
 		useSummaryTodayWeatherSearch()
-		const { isLocalGeo } = useWeather()
+	const { isLocalGeo } = useWeather()
 
 	return (
-		<div  className={styles.weather__search}>
+		<div className={styles.weather__search}>
 			<div>
 				<Search
 					type='text'
 					name='search places'
 					placeholder='Search for places...'
-					onFocus = {handle.handleSearchFocus}
+					onFocus={handle.handleSearchFocus}
 					onInput={handle.handleSearch}
 					value={searchTerm}
 				/>
-				<button onClick={handle.handleLocalGeo} disabled={isLocalGeo ? true : false}>
+				<button
+					onClick={handle.handleLocalGeo}
+					disabled={isLocalGeo ? true : false}
+				>
 					<BsGeoAltFill />
 				</button>
 			</div>
 
 			{cities.length > 0 && isShowListCities && (
-				<>				
+				<>
 					<button onClick={handle.handleCloseClick}>
-						<IoMdClose size={25}/>
+						<IoMdClose size={25} />
 					</button>
 					<ul>
 						{cities
@@ -43,7 +46,11 @@ const SummaryTodayWeatherSearch: FunctionComponent = () => {
 								<li key={index}>
 									<a
 										onClick={e =>
-											handle.handleLinkClick(e, itemCities.city, itemCities.iso2)
+											handle.handleLinkClick(
+												e,
+												itemCities.city,
+												itemCities.iso2
+											)
 										}
 										href='#'
 									>{`${itemCities.city}, ${itemCities.country}`}</a>

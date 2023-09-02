@@ -2,14 +2,16 @@ import { FunctionComponent } from 'react'
 import { BsCloudRainFill, BsFillCloudFill } from 'react-icons/bs'
 
 import { covertDegrees } from '@/utils/convertDegrees'
-import { formatDateDay, formatDateTime } from '@/utils/formatDate'
+import { formatDateTimezone } from '@/utils/formatDate'
 
 import styles from './SummaryTodayWeatherInfo.module.scss'
 
 import { IWeatherData } from '@/shared/types/weatherData.types'
 import { urlIcon } from '@/constants/urlIcon'
 
-const SummaryTodayWeatherInfo: FunctionComponent<{weatherData: IWeatherData | null}> = ({ weatherData }) => {
+const SummaryTodayWeatherInfo: FunctionComponent<{
+	weatherData: IWeatherData | null
+}> = ({ weatherData }) => {
 	return (
 		<div className={styles.weather__info}>
 			{weatherData && (
@@ -26,8 +28,8 @@ const SummaryTodayWeatherInfo: FunctionComponent<{weatherData: IWeatherData | nu
 						<sup>°C</sup>
 					</div>
 					<div className={styles.date}>
-						{`${formatDateDay(new Date())},`}
-						<span>{formatDateTime(new Date())}</span>
+						{`${formatDateTimezone(weatherData.timezone, 'day')},`}
+						<span>{formatDateTimezone(weatherData.timezone, 'time')}</span>
 					</div>
 					<div className={styles.description}>
 						<BsFillCloudFill />

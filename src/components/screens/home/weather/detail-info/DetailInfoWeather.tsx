@@ -1,103 +1,17 @@
-import { FunctionComponent, useEffect, useState } from 'react'
-import { AxiosResponse } from 'axios'
-import clsx from 'clsx'
+import { FunctionComponent } from 'react'
 
 import styles from './DetailInfoWeather.module.scss'
 
-import WeatherService from '@/services/weather/weather.service'
-import { useWeather } from '@/hooks/useWeather'
-import { formatDateDay, formatDateTime } from '@/utils/formatDate'
-import { urlIcon } from '@/constants/urlIcon'
-
-interface IWeatherFiveDayProps {
-	main: {
-		temp: number
-	}
-	dt_txt: string
-	weather: {icon: string}[]
-}
+import DetailInfoWeatherFiveDay from './five-day/DetailInfoWeatherFiveDay'
+import DetailInfoTodayWeather from './today/DetailInfoTodayWeather'
 
 const DetailInfoWeather: FunctionComponent = () => {
-	const [weatherFiveDay, setWeatherFiveDay] = useState<{day: string; temp: number; icon: string}[] | null>(null)
-	const [isWeatherFiveDay, setIsWeatherFiveDay] = useState(false)
-	const [activeElList, setActiveElList] = useState('')
-
-	const { localCoords, selectCity, isLocalGeo } = useWeather()
-	const ulData = ['today', 'five day']
-
-	const fetchCityWeatherFiveDay = async () => {
-		const { data }: AxiosResponse<{list: IWeatherFiveDayProps[]}> = 
-			await WeatherService.getCityWeatherFiveDay(selectCity!.city, selectCity!.country)
-		convertData(data)
-	}
-
-	const handleWeatherFiveDayClick = (element: string) => {
-		setActiveElList(element)
-
-		element === 'five day' ? setIsWeatherFiveDay(true): setIsWeatherFiveDay(false)
-	}
-
-	const convertData = (data: { list: IWeatherFiveDayProps[] }) => {
-		const weatherFiveDayData: {day: string; temp: number; icon: string}[] = []
-
-		data.list.forEach(item => {
-			const dateDay = formatDateDay(new Date(item.dt_txt))
-			const timeDay = formatDateTime(new Date(item.dt_txt))
-
-			timeDay === '12:00' && weatherFiveDayData.push({
-				day: dateDay,
-				temp: Math.round(item.main.temp),
-				icon: item.weather[0].icon
-			})
-		},)
-		
-		setWeatherFiveDay(weatherFiveDayData)
-	}
-
-	const fetchWeatherFiveDay = async () => {
-		const { data }: AxiosResponse<{list: IWeatherFiveDayProps[]}> = 
-			await WeatherService.getWeatherFiveDay(localCoords.latitude, localCoords.longitude)
-		convertData(data)
-	}
-
-	useEffect(() => {
-		isWeatherFiveDay && selectCity && fetchCityWeatherFiveDay() 
-		isWeatherFiveDay && !selectCity && fetchWeatherFiveDay()
-	}, [selectCity, isWeatherFiveDay])
-
 	return (
-
 		<div className={styles.weather__detail_info}>
-			<div>
-				<nav>
-					<ul>
-						{ulData.map((element, index) => (
-							<li key={index}>
-								<button
-									className={clsx('', {
-										[styles.active]: activeElList === element || (!isWeatherFiveDay && element === 'today')
-									})}
-									disabled={activeElList === element ? true : false}
-									onClick={() => handleWeatherFiveDayClick(element)}>
-										{element}
-								</button>
-							</li>
-						))}
-					</ul>
-				</nav>
-
-				{isWeatherFiveDay && <div>
-					{weatherFiveDay?.map((item, index) => (
-						<div key={index}>
-							<p>{item.day}</p>
-							<img src={`${urlIcon}${item.icon}@2x.png`} alt="" />
-							<p>{item.temp}°C</p>
-						</div>
-					))}
-				</div>}
-			</div>
+			<DetailInfoWeatherFiveDay />
+			<DetailInfoTodayWeather />
 		</div>
-
-)}
+	)
+}
 
 export default DetailInfoWeather

@@ -16,7 +16,12 @@ export const useSummaryTodayWeatherSearch = () => {
 	const [isShowListCities, setIsShowListCities] = useState(false)
 
 	const debouncedSearch = useDebounce(searchTerm, 500)
-	const { setCityWeatherData, setIsLocalGeo, setSelectCity } = useWeather()
+	const {
+		setCityWeatherData,
+		setIsLocalGeo,
+		setSelectCity,
+		setLocalWeatherData
+	} = useWeather()
 
 	const fetchCityWeather = async (city: string, country: string) => {
 		const { data } = await WeatherService.getCityWeather(city, country)
@@ -33,6 +38,7 @@ export const useSummaryTodayWeatherSearch = () => {
 
 		fetchCityWeather(city, country)
 		setSelectCity({ country, city })
+		setLocalWeatherData(null)
 		setIsShowListCities(false)
 		setSearchTerm('')
 		setIsLocalGeo(false)
@@ -69,7 +75,7 @@ export const useSummaryTodayWeatherSearch = () => {
 	const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
 		const targetEl = e.target as HTMLInputElement
 
-		setSearchTerm(targetEl.value.trim())
+		setSearchTerm(targetEl.value.trimStart())
 		!targetEl.value.trim().length && setIsShowListCities(false)
 	}
 
@@ -78,6 +84,7 @@ export const useSummaryTodayWeatherSearch = () => {
 	const handleLocalGeo = () => {
 		setIsLocalGeo(true)
 		setSelectCity(null)
+		setCityWeatherData(null)
 	}
 
 	return useMemo(
@@ -85,8 +92,14 @@ export const useSummaryTodayWeatherSearch = () => {
 			cities,
 			isShowListCities,
 			searchTerm,
-			handle: {handleLinkClick, handleSearch, handleCloseClick, handleSearchFocus, handleLocalGeo}
+			handle: {
+				handleLinkClick,
+				handleSearch,
+				handleCloseClick,
+				handleSearchFocus,
+				handleLocalGeo
+			}
 		}),
-		[cities, isShowListCities,searchTerm]
+		[cities, isShowListCities, searchTerm]
 	)
 }

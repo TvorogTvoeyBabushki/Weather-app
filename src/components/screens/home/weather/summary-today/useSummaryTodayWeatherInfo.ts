@@ -13,7 +13,8 @@ export const useSummaryTodayWeatherInfo = () => {
 	const [isDisabledGeo, setIsDisabledGeo] = useState(false)
 	const [isBrowserSupport, setIsBrowserSupport] = useState(true)
 
-	const { cityWeatherData, isLocalGeo, setLocalCoords } = useWeather()
+	const { cityWeatherData, isLocalGeo, setLocalCoords, setLocalWeatherData } =
+		useWeather()
 
 	useEffect(() => {
 		cityWeatherData && setWeatherData(cityWeatherData)
@@ -28,6 +29,7 @@ export const useSummaryTodayWeatherInfo = () => {
 			)
 
 			setWeatherData(weatherToday)
+			setLocalWeatherData(weatherToday)
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -57,20 +59,20 @@ export const useSummaryTodayWeatherInfo = () => {
 					}, 3000)
 				}
 			)
-
-			if (latitude && longitude && isLocalGeo) {
-				fetchWeatherInfo()
-			}
 		} else {
 			setIsBrowserSupport(false)
 		}
 
 		return () => setIsBrowserSupport(true)
-	}, [latitude, longitude, isLocalGeo])
+	}, [])
 
-	// useEffect(() => {
-	// 	console.log(weatherData)
-	// }, [weatherData])
+	useEffect(() => {
+		if (latitude && longitude && isLocalGeo) {
+			fetchWeatherInfo()
+		}
+
+		return () => setWeatherData(null)
+	}, [latitude, longitude, isLocalGeo])
 
 	return useMemo(
 		() => ({
