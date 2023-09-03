@@ -2,6 +2,8 @@
 @import '@/assets/styles/mixins';
 
 .weather__info {
+	@include animation-opacity;
+
 	display: flex;
 	flex-direction: column;
 

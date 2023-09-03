@@ -1,6 +1,8 @@
 import { FunctionComponent } from 'react'
 import clsx from 'clsx'
 
+import SkeletonLoader from '@/components/ui/skeleton-loader/SkeletonLoader'
+
 import { urlIcon } from '@/constants/urlIcon'
 
 import styles from './DetailInfoWeatherFiveDay.module.scss'
@@ -41,7 +43,13 @@ const DetailInfoWeatherFiveDay: FunctionComponent = () => {
 			{isWeatherFiveDay && (
 				<>
 					{!weatherFiveDay ? (
-						<div>Loading...</div>
+						<SkeletonLoader
+							style={{ margin: '50px 9px 0 0' }}
+							count={5}
+							inline
+							height={140}
+							width={140}
+						/>
 					) : (
 						<div>
 							{weatherFiveDay?.map((item, index) => (

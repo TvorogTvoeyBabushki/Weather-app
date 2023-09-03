@@ -5,33 +5,40 @@ import WeatherService from '@/services/weather/weather.service'
 
 import { useWeather } from '@/hooks/useWeather'
 
-import { formatDate } from '@/utils/formatDate'
+import { formatDate, formatDateUnix } from '@/utils/formatDate'
 
 interface IWeatherFiveDayProps {
 	main: {
 		temp: number
 	}
 	dt_txt: string
+	dt: number
 	weather: { icon: string }[]
 }
 
 export const useDetailInfoWeatherFiveDay = () => {
-	const [weatherFiveDay, setWeatherFiveDay] = useState<
-		{ day: string; temp: number; icon: string }[] | null
-	>(null)
 	const [isWeatherFiveDay, setIsWeatherFiveDay] = useState(false)
 	const [activeElList, setActiveElList] = useState('')
 
-	const { localCoords, selectCity } = useWeather()
+	const { localCoords, selectCity, setWeatherFiveDay, weatherFiveDay } =
+		useWeather()
 	const ulData = ['today', 'five day']
 
 	const fetchCityWeatherFiveDay = async () => {
-		const { data }: AxiosResponse<{ list: IWeatherFiveDayProps[] }> =
-			await WeatherService.getCityWeatherFiveDay(
+		try {
+			const {
+				data
+			}: AxiosResponse<{
+				city: { timezone: number }
+				list: IWeatherFiveDayProps[]
+			}> = await WeatherService.getCityWeatherFiveDay(
 				selectCity!.city,
 				selectCity!.country
 			)
-		convertData(data)
+			convertData(data)
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const handleWeatherFiveDayClick = (element: string) => {
@@ -42,39 +49,53 @@ export const useDetailInfoWeatherFiveDay = () => {
 			: setIsWeatherFiveDay(false)
 	}
 
-	const convertData = (data: { list: IWeatherFiveDayProps[] }) => {
+	const convertData = (data: {
+		city: { timezone: number }
+		list: IWeatherFiveDayProps[]
+	}) => {
 		const weatherFiveDayData: { day: string; temp: number; icon: string }[] = []
 
 		data.list.forEach(item => {
-			const dateDay = formatDate(new Date(item.dt_txt), 'day')
-			const timeDay = formatDate(new Date(item.dt_txt), 'time')
+			const timeDay = formatDateUnix(item.dt, data.city.timezone)
 
-			timeDay === '12:00' &&
+			if (timeDay >= '11:00' && timeDay <= '13:00') {
+				const dateDay = formatDate(new Date(item.dt_txt), 'day')
+
 				weatherFiveDayData.push({
 					day: dateDay,
 					temp: Math.round(item.main.temp),
 					icon: item.weather[0].icon
 				})
+			}
 		})
 
 		setWeatherFiveDay(weatherFiveDayData)
 	}
 
 	const fetchWeatherFiveDay = async () => {
-		const { data }: AxiosResponse<{ list: IWeatherFiveDayProps[] }> =
-			await WeatherService.getWeatherFiveDay(
+		try {
+			const {
+				data
+			}: AxiosResponse<{
+				city: { timezone: number }
+				list: IWeatherFiveDayProps[]
+			}> = await WeatherService.getWeatherFiveDay(
 				localCoords.latitude,
 				localCoords.longitude
 			)
-		convertData(data)
+			convertData(data)
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	useEffect(() => {
-		isWeatherFiveDay && selectCity && fetchCityWeatherFiveDay()
-		isWeatherFiveDay && !selectCity && fetchWeatherFiveDay()
-
-		return () => setWeatherFiveDay(null)
-	}, [selectCity, isWeatherFiveDay])
+		isWeatherFiveDay &&
+			selectCity &&
+			!weatherFiveDay &&
+			fetchCityWeatherFiveDay()
+		isWeatherFiveDay && !selectCity && !weatherFiveDay && fetchWeatherFiveDay()
+	}, [selectCity, isWeatherFiveDay, localCoords])
 
 	return useMemo(
 		() => ({

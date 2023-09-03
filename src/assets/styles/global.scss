@@ -23,7 +23,7 @@ body {
 }
 
 .notification {
-	@include animation-opacity;
+	@include animation-notification;
 
 	width: 250px;
 	padding: 20px 0px;

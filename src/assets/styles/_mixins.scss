@@ -1,4 +1,4 @@
-@mixin animation-opacity {
+@mixin animation-notification {
 	animation: opacity 3s ease-in-out;
 
 	@keyframes opacity {
@@ -16,6 +16,20 @@
 
 		to {
 			opacity: 0;
+		}
+	}
+}
+
+@mixin animation-opacity {
+	animation: opacity 1s ease-in-out;
+
+	@keyframes opacity {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
 		}
 	}
 }

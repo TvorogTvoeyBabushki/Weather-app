@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react'
 import SummaryTodayWeatherInfo from './info/SummaryTodayWeatherInfo'
 import SummaryTodayWeatherSearch from './search/SummaryTodayWeatherSearch'
 import { useSummaryTodayWeatherInfo } from './useSummaryTodayWeatherInfo'
+import SkeletonLoader from '@/components/ui/skeleton-loader/SkeletonLoader'
 
 const SummaryTodayWeather: FunctionComponent = () => {
 	const summaryTodayWeatherInfo = useSummaryTodayWeatherInfo()
@@ -18,7 +19,11 @@ const SummaryTodayWeather: FunctionComponent = () => {
 				</div>
 			)}
 			{!summaryTodayWeatherInfo.weatherData ? (
-				<>Loading...</>
+				<SkeletonLoader
+					count={6}
+					height={80}
+					style={{ marginBottom: '25px' }}
+				/>
 			) : (
 				<>
 					<SummaryTodayWeatherSearch />

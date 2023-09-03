@@ -9,7 +9,6 @@ export const useSummaryTodayWeatherInfo = () => {
 	const [latitude, setLatitude] = useState(0)
 	const [longitude, setLongitude] = useState(0)
 	const [weatherData, setWeatherData] = useState<IWeatherData | null>(null)
-	const [isLoading, setIsLoading] = useState(false)
 	const [isDisabledGeo, setIsDisabledGeo] = useState(false)
 	const [isBrowserSupport, setIsBrowserSupport] = useState(true)
 
@@ -22,18 +21,14 @@ export const useSummaryTodayWeatherInfo = () => {
 
 	const fetchWeatherInfo = async () => {
 		try {
-			setIsLoading(true)
 			const { data: weatherToday } = await WeatherService.getWeatherToday(
 				latitude,
 				longitude
 			)
-
 			setWeatherData(weatherToday)
 			setLocalWeatherData(weatherToday)
 		} catch (error) {
 			console.log(error)
-		} finally {
-			setIsLoading(false)
 		}
 	}
 
@@ -77,10 +72,9 @@ export const useSummaryTodayWeatherInfo = () => {
 	return useMemo(
 		() => ({
 			weatherData,
-			isLoading,
 			isDisabledGeo,
 			isBrowserSupport
 		}),
-		[weatherData, isLoading, isDisabledGeo, isBrowserSupport]
+		[weatherData, isDisabledGeo, isBrowserSupport]
 	)
 }

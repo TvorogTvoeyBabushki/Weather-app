@@ -1,5 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
+import SkeletonLoader from '@/components/ui/skeleton-loader/SkeletonLoader'
+
 import { useWeather } from '@/hooks/useWeather'
 
 import { formatDateUnix } from '@/utils/formatDate'
@@ -26,7 +28,13 @@ const DetailInfoTodayWeather: FunctionComponent = () => {
 			<h2>Today's Highlights</h2>
 
 			{!weatherData ? (
-				<div>Loading...</div>
+				<SkeletonLoader
+					style={{ margin: '0 25px 20px 0' }}
+					count={6}
+					inline
+					height={150}
+					width={`30%`}
+				/>
 			) : (
 				<div>
 					<DetailInfoTodayWeatherItem

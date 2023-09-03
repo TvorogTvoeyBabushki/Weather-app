@@ -20,13 +20,17 @@ export const useSummaryTodayWeatherSearch = () => {
 		setCityWeatherData,
 		setIsLocalGeo,
 		setSelectCity,
-		setLocalWeatherData
+		setLocalWeatherData,
+		setWeatherFiveDay
 	} = useWeather()
 
 	const fetchCityWeather = async (city: string, country: string) => {
-		const { data } = await WeatherService.getCityWeather(city, country)
-
-		setCityWeatherData(data)
+		try {
+			const { data } = await WeatherService.getCityWeather(city, country)
+			setCityWeatherData(data)
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const handleLinkClick = (
@@ -39,14 +43,19 @@ export const useSummaryTodayWeatherSearch = () => {
 		fetchCityWeather(city, country)
 		setSelectCity({ country, city })
 		setLocalWeatherData(null)
+		setWeatherFiveDay(null)
 		setIsShowListCities(false)
 		setSearchTerm('')
 		setIsLocalGeo(false)
 	}
 
 	const fetchGetCities = async () => {
-		const { data } = await CitiesService.getAllCities()
-		setCitiesData(data)
+		try {
+			const { data } = await CitiesService.getAllCities()
+			setCitiesData(data)
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	useEffect(() => {
@@ -85,6 +94,7 @@ export const useSummaryTodayWeatherSearch = () => {
 		setIsLocalGeo(true)
 		setSelectCity(null)
 		setCityWeatherData(null)
+		setWeatherFiveDay(null)
 	}
 
 	return useMemo(

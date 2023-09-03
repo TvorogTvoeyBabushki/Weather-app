@@ -11,6 +11,12 @@ interface ISelectCityProps {
 	city: string
 }
 
+interface IWeatherFiveDay {
+	day: string
+	temp: number
+	icon: string
+}
+
 export interface IWeatherContextProps {
 	cityWeatherData: IWeatherData | null
 	setCityWeatherData: (cityWeatherData: IWeatherData | null) => void
@@ -22,6 +28,8 @@ export interface IWeatherContextProps {
 	setSelectCity: (selectCity: ISelectCityProps | null) => void
 	localWeatherData: IWeatherData | null
 	setLocalWeatherData: (localWeatherData: IWeatherData | null) => void
+	weatherFiveDay: IWeatherFiveDay[] | null
+	setWeatherFiveDay: (weatherFiveDay: IWeatherFiveDay[] | null) => void
 }
 
 export const WeatherContext = createContext<IWeatherContextProps | null>(null)
@@ -41,6 +49,9 @@ const WeatherProvider: FunctionComponent<{ children: JSX.Element }> = ({
 	const [localWeatherData, setLocalWeatherData] = useState<IWeatherData | null>(
 		null
 	)
+	const [weatherFiveDay, setWeatherFiveDay] = useState<
+		IWeatherFiveDay[] | null
+	>(null)
 
 	return (
 		<WeatherContext.Provider
@@ -54,7 +65,9 @@ const WeatherProvider: FunctionComponent<{ children: JSX.Element }> = ({
 				selectCity,
 				setSelectCity,
 				localWeatherData,
-				setLocalWeatherData
+				setLocalWeatherData,
+				weatherFiveDay,
+				setWeatherFiveDay
 			}}
 		>
 			{children}

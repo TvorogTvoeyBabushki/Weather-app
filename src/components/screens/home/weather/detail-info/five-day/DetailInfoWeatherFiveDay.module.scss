@@ -32,10 +32,11 @@
 		}
 	}
 	> div {
+		@include animation-opacity;
+
 		display: flex;
 		justify-content: space-between;
 		margin-top: 50px;
-		animation: opacity 1s ease-in-out;
 
 		> div {
 			padding: 10px 20px;
@@ -44,15 +45,5 @@
 			box-shadow: $box-shadow;
 			text-align: center;
 		}
-	}
-}
-
-@keyframes opacity {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
 	}
 }

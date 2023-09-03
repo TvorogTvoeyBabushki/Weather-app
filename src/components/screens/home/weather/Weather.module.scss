@@ -22,7 +22,7 @@
 	> div:last-child {
 		flex: 1 0 70%;
 		padding: 40px;
-		height: fit-content;
+		// height: inherit;
 		background-color: $block;
 	}
 }
