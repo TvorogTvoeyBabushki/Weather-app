@@ -4,9 +4,11 @@ import SummaryTodayWeatherInfo from './info/SummaryTodayWeatherInfo'
 import SummaryTodayWeatherSearch from './search/SummaryTodayWeatherSearch'
 import { useSummaryTodayWeatherInfo } from './useSummaryTodayWeatherInfo'
 import SkeletonLoader from '@/components/ui/skeleton-loader/SkeletonLoader'
+import { useWeather } from '@/hooks/useWeather'
 
 const SummaryTodayWeather: FunctionComponent = () => {
 	const summaryTodayWeatherInfo = useSummaryTodayWeatherInfo()
+	const { isError404 } = useWeather()
 
 	const [windowWidth, setWindowWidth] = useState(
 		document.documentElement.clientWidth
@@ -32,17 +34,16 @@ const SummaryTodayWeather: FunctionComponent = () => {
 						: 'Geolocation не поддерживается вашим браузером'}
 				</div>
 			)}
+			<SummaryTodayWeatherSearch />
+			{isError404 && <div style={{ color: 'red' }}>No data for this city</div>}
 			{!summaryTodayWeatherInfo.weatherData ? (
 				<SkeletonLoader
-					count={windowWidth < 1280 ? 3 : 6}
+					count={windowWidth < 1280 ? 3 : 5}
 					height={80}
 					style={{ marginBottom: '25px' }}
 				/>
 			) : (
-				<>
-					<SummaryTodayWeatherSearch />
-					<SummaryTodayWeatherInfo {...summaryTodayWeatherInfo} />
-				</>
+				<SummaryTodayWeatherInfo {...summaryTodayWeatherInfo} />
 			)}
 		</div>
 	)

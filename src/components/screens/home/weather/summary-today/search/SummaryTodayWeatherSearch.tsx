@@ -6,8 +6,8 @@ import Search from '@/components/ui/search/Search'
 
 import styles from './SummaryTodayWeatherSearch.module.scss'
 
-import { useSummaryTodayWeatherSearch } from './useSummaryTodayWeatherSearch'
 import { useWeather } from '@/hooks/useWeather'
+import { useSummaryTodayWeatherSearch } from './useSummaryTodayWeatherSearch'
 
 const SummaryTodayWeatherSearch: FunctionComponent = () => {
 	const { cities, handle, isShowListCities, searchTerm } =

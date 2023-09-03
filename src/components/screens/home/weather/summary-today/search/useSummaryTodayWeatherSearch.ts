@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { AxiosError } from 'axios'
 
 import CitiesService from '@/services/cities/cities.service'
 import WeatherService from '@/services/weather/weather.service'
@@ -21,14 +22,20 @@ export const useSummaryTodayWeatherSearch = () => {
 		setIsLocalGeo,
 		setSelectCity,
 		setLocalWeatherData,
-		setWeatherFiveDay
+		setWeatherFiveDay,
+		setIsError404
 	} = useWeather()
 
 	const fetchCityWeather = async (city: string, country: string) => {
 		try {
 			const { data } = await WeatherService.getCityWeather(city, country)
+
 			setCityWeatherData(data)
+			data && setIsError404(false)
 		} catch (error) {
+			const err = error as AxiosError
+
+			if (err.response!.status === 404) setIsError404(true)
 			console.log(error)
 		}
 	}
@@ -95,6 +102,7 @@ export const useSummaryTodayWeatherSearch = () => {
 		setSelectCity(null)
 		setCityWeatherData(null)
 		setWeatherFiveDay(null)
+		setIsError404(false)
 	}
 
 	return useMemo(

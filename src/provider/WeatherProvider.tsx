@@ -30,6 +30,8 @@ export interface IWeatherContextProps {
 	setLocalWeatherData: (localWeatherData: IWeatherData | null) => void
 	weatherFiveDay: IWeatherFiveDay[] | null
 	setWeatherFiveDay: (weatherFiveDay: IWeatherFiveDay[] | null) => void
+	isError404: boolean
+	setIsError404: (isError404: boolean) => void
 }
 
 export const WeatherContext = createContext<IWeatherContextProps | null>(null)
@@ -49,6 +51,7 @@ const WeatherProvider: FunctionComponent<{ children: JSX.Element }> = ({
 	const [weatherFiveDay, setWeatherFiveDay] = useState<
 		IWeatherFiveDay[] | null
 	>(null)
+	const [isError404, setIsError404] = useState(false)
 
 	return (
 		<WeatherContext.Provider
@@ -64,7 +67,9 @@ const WeatherProvider: FunctionComponent<{ children: JSX.Element }> = ({
 				localWeatherData,
 				setLocalWeatherData,
 				weatherFiveDay,
-				setWeatherFiveDay
+				setWeatherFiveDay,
+				isError404,
+				setIsError404
 			}}
 		>
 			{children}
