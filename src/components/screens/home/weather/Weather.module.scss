@@ -1,6 +1,9 @@
 @import '@/assets/styles/variables';
+@import '@/assets/styles/mixins';
 
 .weather__wrapper {
+	@include transition(height);
+
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -55,7 +58,13 @@
 		}
 	}
 
+	@media (max-width: 650px) {
+		height: 900px;
+	}
+
 	@media (max-width: 450px) {
+		height: 1500px;
+
 		> div:is(:first-child, :last-child) {
 			padding: 20px;
 		}
