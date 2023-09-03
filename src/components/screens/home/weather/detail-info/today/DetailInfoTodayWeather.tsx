@@ -19,7 +19,7 @@ const DetailInfoTodayWeather: FunctionComponent = () => {
 
 			{!weatherData ? (
 				<SkeletonLoader
-					style={{ margin: '0 25px 20px 0' }}
+					style={{ margin: '0 20px 20px 0' }}
 					count={6}
 					inline
 					height={windowWidth < 1280 ? 170 : 150}
