@@ -4,11 +4,22 @@
 .weather__info {
 	@include animation-opacity;
 
+	display: -webkit-box;
+
+	display: -ms-flexbox;
+
 	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
 	flex-direction: column;
 
 	> div {
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
 		align-items: center;
 	}
 
@@ -53,7 +64,11 @@
 	}
 
 	> .country {
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
 		justify-content: center;
 		padding: 60px 40px;
 		border-radius: 30px;
@@ -66,8 +81,10 @@
 			right: 0;
 			bottom: 0;
 			width: 100%;
+			-webkit-box-shadow: $box-shadow;
 			box-shadow: $box-shadow;
 			border-radius: 30px;
+			-webkit-filter: blur(1px);
 			filter: blur(1px);
 			background: url('public/city.png') center / cover no-repeat;
 		}
@@ -81,5 +98,51 @@
 	svg {
 		margin-right: 10px;
 		fill-opacity: 0.3;
+	}
+
+	@media (max-width: 1280px) {
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		width: 100%;
+		height: 300px;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+
+		> .icon {
+			margin-top: -35px;
+		}
+
+		> .clouds {
+			margin-bottom: 0;
+		}
+
+		> .country {
+			margin-top: 160px;
+		}
+
+		> .date {
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+	}
+
+	@media (max-width: 650px) {
+		-ms-flex-wrap: nowrap;
+		flex-wrap: nowrap;
+		height: auto;
+
+		> .icon {
+			margin-top: 0;
+		}
+
+		> .country {
+			margin-top: 40px;
+		}
+
+		> .date {
+			padding-bottom: 30px;
+			border-bottom: 1px solid rgba($gray, 0.3);
+		}
 	}
 }

@@ -22,7 +22,7 @@ export interface IWeatherContextProps {
 	setCityWeatherData: (cityWeatherData: IWeatherData | null) => void
 	isLocalGeo: boolean
 	setIsLocalGeo: (isLocalGeo: boolean) => void
-	localCoords: ILocalCoords
+	localCoords: ILocalCoords | null
 	setLocalCoords: (localCoords: ILocalCoords) => void
 	selectCity: ISelectCityProps | null
 	setSelectCity: (selectCity: ISelectCityProps | null) => void
@@ -41,10 +41,7 @@ const WeatherProvider: FunctionComponent<{ children: JSX.Element }> = ({
 		null
 	)
 	const [isLocalGeo, setIsLocalGeo] = useState(true)
-	const [localCoords, setLocalCoords] = useState({
-		latitude: 0,
-		longitude: 0
-	})
+	const [localCoords, setLocalCoords] = useState<ILocalCoords | null>(null)
 	const [selectCity, setSelectCity] = useState<ISelectCityProps | null>(null)
 	const [localWeatherData, setLocalWeatherData] = useState<IWeatherData | null>(
 		null

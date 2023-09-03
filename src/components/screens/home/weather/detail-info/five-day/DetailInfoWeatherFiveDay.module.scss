@@ -4,7 +4,11 @@
 .weather__five_day {
 	> nav {
 		> ul {
+			display: -webkit-box;
+			display: -ms-flexbox;
 			display: flex;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
 			align-items: center;
 
 			> li {
@@ -32,18 +36,55 @@
 		}
 	}
 	> div {
-		@include animation-opacity;
+		padding: 20px;
+		margin-top: 50px;
+		overflow-x: auto;
+
+		display: -webkit-box;
+
+		display: -ms-flexbox;
 
 		display: flex;
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
 		justify-content: space-between;
-		margin-top: 50px;
+		gap: 0 10px;
+		position: relative;
+
+		> .scroll_border {
+			padding: 0;
+			background-color: transparent;
+			position: sticky;
+			top: 0;
+			z-index: 1;
+
+			&.left {
+				left: 0;
+				-webkit-box-shadow: rgb(0, 0, 0) -45px 3px 20px 20px;
+				box-shadow: rgb(0, 0, 0) -45px 3px 20px 20px;
+			}
+
+			&.right {
+				right: 0;
+				-webkit-box-shadow: rgb(0, 0, 0) 45px 3px 20px 20px;
+				box-shadow: rgb(0, 0, 0) 45px 3px 20px 20px;
+			}
+		}
 
 		> div {
+			@include animation-opacity;
+
 			padding: 10px 20px;
 			background-color: $white;
 			border-radius: 15px;
+			-webkit-box-shadow: $box-shadow;
 			box-shadow: $box-shadow;
 			text-align: center;
+
+			@media (max-width: 629px) {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
 		}
 	}
 }

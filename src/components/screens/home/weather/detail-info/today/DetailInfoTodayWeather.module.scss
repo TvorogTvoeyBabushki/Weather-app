@@ -9,18 +9,25 @@
 	}
 
 	> div {
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
+		-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
+		-webkit-box-pack: justify;
+		-ms-flex-pack: justify;
 		justify-content: space-between;
 		gap: 20px 0;
 
 		> div {
 			@include animation-opacity;
+			@include transition(width);
 
 			width: 30%;
 			background-color: $white;
 			padding: 20px 20px;
 			border-radius: 15px;
+			-webkit-box-shadow: $box-shadow;
 			box-shadow: $box-shadow;
 			height: 150px;
 
@@ -39,12 +46,21 @@
 			}
 
 			> div {
+				display: -webkit-box;
+				display: -ms-flexbox;
 				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-ms-flex-direction: column;
 				flex-direction: column;
 				gap: 10px 0;
 
 				> div {
+					display: -webkit-box;
+					display: -ms-flexbox;
 					display: flex;
+					-webkit-box-align: center;
+					-ms-flex-align: center;
 					align-items: center;
 					font-size: 1.3rem;
 
@@ -56,6 +72,30 @@
 						}
 					}
 				}
+			}
+		}
+	}
+
+	@media (max-width: 1280px) {
+		> div {
+			> div {
+				height: 170px;
+			}
+		}
+	}
+
+	@media (max-width: 650px) {
+		> div {
+			> div {
+				width: 47%;
+			}
+		}
+	}
+
+	@media (max-width: 450px) {
+		> div {
+			> div {
+				width: 80%;
 			}
 		}
 	}

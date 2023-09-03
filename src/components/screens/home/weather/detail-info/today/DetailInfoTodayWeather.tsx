@@ -1,8 +1,6 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent } from 'react'
 
 import SkeletonLoader from '@/components/ui/skeleton-loader/SkeletonLoader'
-
-import { useWeather } from '@/hooks/useWeather'
 
 import { formatDateUnix } from '@/utils/formatDate'
 import { convertKilometers } from '@/utils/convertKilometers'
@@ -10,18 +8,10 @@ import { convertKilometers } from '@/utils/convertKilometers'
 import styles from './DetailInfoTodayWeather.module.scss'
 
 import DetailInfoTodayWeatherItem from './DetailInfoTodayWeatherItem'
-import { IWeatherData } from '@/shared/types/weatherData.types'
+import { useDetailInfoTodayWeather } from './useDetailInfoTodayWeather'
 
 const DetailInfoTodayWeather: FunctionComponent = () => {
-	const { localWeatherData, cityWeatherData } = useWeather()
-	const [weatherData, setWeatherData] = useState<IWeatherData | null>(null)
-
-	useEffect(() => {
-		localWeatherData && setWeatherData(localWeatherData)
-		cityWeatherData && setWeatherData(cityWeatherData)
-
-		return () => setWeatherData(null)
-	}, [localWeatherData, cityWeatherData])
+	const { weatherData, windowWidth } = useDetailInfoTodayWeather()
 
 	return (
 		<div className={styles.weather__detail_info_today}>
@@ -32,8 +22,16 @@ const DetailInfoTodayWeather: FunctionComponent = () => {
 					style={{ margin: '0 25px 20px 0' }}
 					count={6}
 					inline
-					height={150}
-					width={`30%`}
+					height={windowWidth < 1280 ? 170 : 150}
+					width={
+						windowWidth < 1280 && windowWidth > 650
+							? '27%'
+							: windowWidth < 650 && windowWidth > 450
+							? '40%'
+							: windowWidth < 450
+							? '80%'
+							: '30%'
+					}
 				/>
 			) : (
 				<div>

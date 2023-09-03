@@ -1,8 +1,14 @@
 @import '@/assets/styles/variables';
 
 .search {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
+	width: -webkit-min-content;
+	width: -moz-min-content;
 	width: min-content;
 	cursor: pointer;
 
@@ -13,6 +19,22 @@
 
 	> input {
 		background-color: transparent;
+
+		&::-webkit-input-placeholder {
+			color: $gray;
+		}
+
+		&::-moz-placeholder {
+			color: $gray;
+		}
+
+		&:-ms-input-placeholder {
+			color: $gray;
+		}
+
+		&::-ms-input-placeholder {
+			color: $gray;
+		}
 
 		&::placeholder {
 			color: $gray;

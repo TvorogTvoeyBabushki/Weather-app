@@ -1,12 +1,35 @@
 @mixin animation-notification {
+	-webkit-animation: opacity 3s ease-in-out;
 	animation: opacity 3s ease-in-out;
 
-	@keyframes opacity {
+	@-webkit-keyframes opacity {
 		from {
+			-webkit-transform: translateX(300px);
 			transform: translateX(300px);
 		}
 
 		40% {
+			-webkit-transform: translateX(0);
+			transform: translateX(0);
+		}
+
+		50% {
+			opacity: 1;
+		}
+
+		to {
+			opacity: 0;
+		}
+	}
+
+	@keyframes opacity {
+		from {
+			-webkit-transform: translateX(300px);
+			transform: translateX(300px);
+		}
+
+		40% {
+			-webkit-transform: translateX(0);
 			transform: translateX(0);
 		}
 
@@ -21,7 +44,18 @@
 }
 
 @mixin animation-opacity {
+	-webkit-animation: opacity 1s ease-in-out;
 	animation: opacity 1s ease-in-out;
+
+	@-webkit-keyframes opacity {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
 
 	@keyframes opacity {
 		from {
@@ -35,5 +69,7 @@
 }
 
 @mixin transition($val) {
+	-webkit-transition: $val 0.3s ease-in-out;
+	-o-transition: $val 0.3s ease-in-out;
 	transition: $val 0.3s ease-in-out;
 }

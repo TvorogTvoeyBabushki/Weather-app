@@ -15,6 +15,7 @@ const DetailInfoWeatherFiveDay: FunctionComponent = () => {
 		ulData,
 		weatherFiveDay,
 		isWeatherFiveDay,
+		windowWidth,
 		handleWeatherFiveDayClick
 	} = useDetailInfoWeatherFiveDay()
 
@@ -45,21 +46,33 @@ const DetailInfoWeatherFiveDay: FunctionComponent = () => {
 					{!weatherFiveDay ? (
 						<SkeletonLoader
 							style={{ margin: '50px 9px 0 0' }}
-							count={5}
+							count={windowWidth < 1280 ? 1 : 5}
 							inline
-							height={140}
-							width={140}
+							height={windowWidth < 1280 ? 100 : 140}
+							width={windowWidth < 1280 ? '100%' : 140}
 						/>
 					) : (
-						<div>
-							{weatherFiveDay?.map((item, index) => (
-								<div key={index}>
-									<p>{item.day}</p>
-									<img src={`${urlIcon}${item.icon}@2x.png`} alt='' />
-									<p>{item.temp}°C</p>
-								</div>
-							))}
-						</div>
+						<>
+							<div>
+								{windowWidth < 630 && (
+									<div
+										className={clsx(styles.scroll_border, styles.left)}
+									></div>
+								)}
+								{weatherFiveDay?.map((item, index) => (
+									<div key={index}>
+										<p>{item.day.slice(0, 3)}</p>
+										<img src={`${urlIcon}${item.icon}@2x.png`} alt='' />
+										<p>{item.temp}°C</p>
+									</div>
+								))}
+								{windowWidth < 630 && (
+									<div
+										className={clsx(styles.scroll_border, styles.right)}
+									></div>
+								)}
+							</div>
+						</>
 					)}
 				</>
 			)}

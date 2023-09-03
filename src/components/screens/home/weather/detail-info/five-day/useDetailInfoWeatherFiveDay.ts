@@ -19,6 +19,9 @@ interface IWeatherFiveDayProps {
 export const useDetailInfoWeatherFiveDay = () => {
 	const [isWeatherFiveDay, setIsWeatherFiveDay] = useState(false)
 	const [activeElList, setActiveElList] = useState('')
+	const [windowWidth, setWindowWidth] = useState(
+		document.documentElement.clientWidth
+	)
 
 	const { localCoords, selectCity, setWeatherFiveDay, weatherFiveDay } =
 		useWeather()
@@ -80,8 +83,8 @@ export const useDetailInfoWeatherFiveDay = () => {
 				city: { timezone: number }
 				list: IWeatherFiveDayProps[]
 			}> = await WeatherService.getWeatherFiveDay(
-				localCoords.latitude,
-				localCoords.longitude
+				localCoords!.latitude,
+				localCoords!.longitude
 			)
 			convertData(data)
 		} catch (error) {
@@ -94,8 +97,23 @@ export const useDetailInfoWeatherFiveDay = () => {
 			selectCity &&
 			!weatherFiveDay &&
 			fetchCityWeatherFiveDay()
-		isWeatherFiveDay && !selectCity && !weatherFiveDay && fetchWeatherFiveDay()
+		isWeatherFiveDay &&
+			!selectCity &&
+			!weatherFiveDay &&
+			localCoords &&
+			fetchWeatherFiveDay()
 	}, [selectCity, isWeatherFiveDay, localCoords])
+
+	useEffect(() => {
+		window.addEventListener('resize', () =>
+			setWindowWidth(document.documentElement.clientWidth)
+		)
+
+		return () =>
+			window.removeEventListener('resize', () =>
+				setWindowWidth(document.documentElement.clientWidth)
+			)
+	}, [])
 
 	return useMemo(
 		() => ({
@@ -103,8 +121,9 @@ export const useDetailInfoWeatherFiveDay = () => {
 			activeElList,
 			ulData,
 			isWeatherFiveDay,
+			windowWidth,
 			handleWeatherFiveDayClick
 		}),
-		[weatherFiveDay, activeElList, ulData, isWeatherFiveDay]
+		[weatherFiveDay, activeElList, ulData, isWeatherFiveDay, windowWidth]
 	)
 }

@@ -7,7 +7,11 @@
 	position: relative;
 
 	> div {
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
 		align-items: center;
 
 		> button {
@@ -33,7 +37,7 @@
 		position: absolute;
 		top: calc(100% + 20px);
 		right: 0;
-		z-index: 1;
+		z-index: 2;
 	}
 
 	> ul {
@@ -41,10 +45,12 @@
 		overflow: hidden;
 		background-color: $white;
 		padding: 20px 20px 20px 30px;
+		-webkit-box-shadow: $box-shadow;
 		box-shadow: $box-shadow;
 		border-radius: 10px;
 		position: absolute;
 		top: calc(100% + 20px);
+		z-index: 1;
 
 		> li {
 			&:not(:last-child) {
@@ -56,6 +62,34 @@
 
 				&:hover {
 					color: $gray;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 1280px) {
+		-ms-flex-item-align: end;
+		align-self: flex-end;
+	}
+
+	@media (max-width: 650px) {
+		-ms-flex-item-align: start;
+		align-self: flex-start;
+		width: 100%;
+		> div {
+			> label {
+				-webkit-box-flex: 1;
+				-ms-flex-positive: 1;
+				flex-grow: 1;
+			}
+		}
+	}
+
+	@media (max-width: 450px) {
+		> div {
+			> label {
+				> input {
+					width: 150px;
 				}
 			}
 		}

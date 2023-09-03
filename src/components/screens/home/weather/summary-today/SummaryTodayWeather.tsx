@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 
 import SummaryTodayWeatherInfo from './info/SummaryTodayWeatherInfo'
 import SummaryTodayWeatherSearch from './search/SummaryTodayWeatherSearch'
@@ -7,6 +7,20 @@ import SkeletonLoader from '@/components/ui/skeleton-loader/SkeletonLoader'
 
 const SummaryTodayWeather: FunctionComponent = () => {
 	const summaryTodayWeatherInfo = useSummaryTodayWeatherInfo()
+
+	const [windowWidth, setWindowWidth] = useState(
+		document.documentElement.clientWidth
+	)
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			setWindowWidth(document.documentElement.clientWidth)
+		})
+
+		return () =>
+			window.removeEventListener('resize', () => {
+				setWindowWidth(document.documentElement.clientWidth)
+			})
+	}, [])
 
 	return (
 		<div>
@@ -20,7 +34,7 @@ const SummaryTodayWeather: FunctionComponent = () => {
 			)}
 			{!summaryTodayWeatherInfo.weatherData ? (
 				<SkeletonLoader
-					count={6}
+					count={windowWidth < 1280 ? 3 : 6}
 					height={80}
 					style={{ marginBottom: '25px' }}
 				/>
