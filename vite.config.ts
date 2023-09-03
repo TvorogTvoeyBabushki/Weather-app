@@ -5,6 +5,7 @@ import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	base: '/Weather-app/',
 	plugins: [react(), tsconfigPaths()],
 	resolve: {
 		alias: {
@@ -16,6 +17,5 @@ export default defineConfig({
 		port: 7000,
 		open: true,
 		cors: true
-	},
-	base: './'
+	}
 })
